@@ -1,14 +1,12 @@
-# be advised, this script currently does not work
-#------------------------------------------------
+# meh is a rainy day experiment with atom and twitter
+#----------------------------------------------------
 
 #use latest version of sinatra
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/sinatra/lib')
 
 require 'rubygems'
 require 'sinatra'
-require 'atom' #sudo gem install ratom
-#require 'net/http'
-require 'uri'
+require 'atom'
  
 not_found do
   headers["Status"] = "301 Moved Permanently"
@@ -20,8 +18,7 @@ end
 
 get '/' do
   feed_url = 'http://search.twitter.com/search.atom?q=meh'
-  #feed = Atom::Feed.new(Net::HTTP::get(URI::parse(feed_url))) #struggling with atom
-  feed = Atom::Feed.load_feed(URI.parse(feed_url)) #struggling with ratom/lib-xml
+  @feed = Atom::Feed.new(Net::HTTP::get(URI::parse(feed_url)))
   haml :index
 end
 
@@ -55,21 +52,20 @@ __END__
         
 @@ index
 %p
-  -# feed.entries.each do |entry|
-  - feed.each_entry.each do |entry|
-    %span= entry.title
-    by
-    %span= entry.authors.first.name
-    on
-    -#%a{:href="#{entry.link}"}= entry.published.strftime('%m/%d/%Y')
+  - @feed.entries.each do |entry|
+    %span.title= entry.title
+    -# %span.name= entry.authors.first.name
+    -# %span.date= entry.published.strftime('%m/%d/%Y')
   
 @@ main
 *
   :margin 0
   :padding 0
   :font-family arial, sans-serif
+  :font-size 120%
+  :line-height .95em
 body
-  :background-color #777
-  :color #999
+  :background-color #666
+  :color #777
   a
-    :color #999
+    :color #777
