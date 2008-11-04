@@ -91,8 +91,7 @@ __END__
       %span.name= entry.authors.first.name.gsub(/\s*(.+)\s*\((.*)\)/im, ' <a href="http://twitter.com/\1">\1</a>')
       %span.separator said
     %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9-_]+)([\s,.;]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(#{query})/im, '<strong class="query">\1</strong>')
-    
-  
+
 @@ main
 *
   :margin 0
