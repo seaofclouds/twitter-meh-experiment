@@ -6,9 +6,9 @@ $:.unshift File.dirname(__FILE__) + '/sinatra/lib'
 
 require 'rubygems'
 require 'sinatra'
-require 'atom'
 require 'net/http'
 require 'uri'
+require 'atom'
 
 use_in_file_templates!
 
