@@ -10,8 +10,6 @@ require 'net/http'
 require 'uri'
 require 'atom'
 
-use_in_file_templates!
-
 helpers do
   def query
     if params[:query]
@@ -63,6 +61,10 @@ get '/main.css' do
   content_type 'text/css', :charset => 'utf-8'
   sass :main
 end
+
+# templates
+
+use_in_file_templates!
 
 __END__
 
