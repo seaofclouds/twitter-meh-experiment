@@ -2,7 +2,7 @@
 #----------------------------------------------------
 
 #use latest version of sinatra
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/sinatra/lib')
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/home/deploy/sinatra/lib')
 
 require 'rubygems'
 require 'sinatra'
