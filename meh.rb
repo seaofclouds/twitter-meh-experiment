@@ -94,6 +94,14 @@ __END__
       %span.separator said
     %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9-_]+)([\s,.;]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(#{query})/im, '<strong class="query">\1</strong>')
 
+#footer 
+  <script src="http://static.getclicky.com/56588.js" type="text/javascript"></script>
+  <noscript><img alt="Clicky" width=1 height=1 src="http://static.getclicky.com/56588-db8.gif" /></noscript>
+  %p
+    %span.copyright
+      something meh from <a href="http://www.seaofclouds.com">seaofclouds</a>&trade; | 
+      %a{:href=>"http://gist.github.com/21958"} contribute
+          
 @@ main
 *
   :margin 0
@@ -106,7 +114,7 @@ body#meh
   :font-size 300%
   :text-align justify
   :line-height .8em
-  
+  :padding .1em
   a
     :color #777
     :text-decoration none
@@ -122,4 +130,15 @@ body#meh
         :color #aaa
         &:hover
           :color #ccc
-        
+  #footer
+    :font-family verdana, sans-serif
+    :font-size 30%
+    :text-align center
+    :padding-top 2em
+    :text-transform none
+    :color #888
+    p
+      :padding-bottom 0em
+      :line-height .8em
+    a
+      :color #aaa
