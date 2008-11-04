@@ -7,14 +7,17 @@ $LOAD_PATH.unshift(File.dirname(__FILE__) + '/sinatra/lib')
 require 'rubygems'
 require 'sinatra'
 require 'atom'
- 
-not_found do
-  headers["Status"] = "301 Moved Permanently"
-  redirect("/")
-end
+require 'net/http'
+require 'uri'
 
-get '/' do
-
+helpers do
+  def query
+    if params[:query]
+      params[:query]
+    else
+      'meh'
+    end
+  end
   # fancy time
   def time_ago_or_time_stamp(from_time, to_time = Time.now, include_seconds = true, detail = false)
     from_time = from_time.to_time if from_time.respond_to?(:to_time)
@@ -33,8 +36,21 @@ get '/' do
     return time_stamp(from_time) if (detail && distance_in_minutes > 2880)
     return time
   end
-  
-  feed_url = 'http://search.twitter.com/search.atom?q=meh'
+end
+
+not_found do
+  headers["Status"] = "301 Moved Permanently"
+  redirect("/")
+end
+
+get '/' do  
+  feed_url = 'http://search.twitter.com/search.atom?q='+query
+  @feed = Atom::Feed.new(Net::HTTP::get(URI::parse(feed_url)))
+  haml :index
+end
+
+get '/:query' do
+  feed_url = 'http://search.twitter.com/search.atom?q='+query
   @feed = Atom::Feed.new(Net::HTTP::get(URI::parse(feed_url)))
   haml :index
 end
@@ -61,21 +77,20 @@ __END__
     %script{:type=>"text/javascript"}
       :plain
 
-  %body
+  %body{:id=>"#{query}"}
     .container
       #content
         = yield
       #footer 
         
 @@ index
-%p
-  - @feed.entries.each do |entry|
-    %span.item
-      %span.meta
-        %span.date= time_ago_or_time_stamp(entry.published) 
-        %span.name= entry.authors.first.name.gsub(/\s*(.+)\s*\((.*)\)/im, ' <a href="http://twitter.com/\1">\1</a>')
-        %span.separator said
-      %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9-_]+)([\s,.;]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(meh)/im, '<strong class="meh">\1</strong>')
+- @feed.entries.each do |entry|
+  .item
+    %span.meta
+      %span.date= time_ago_or_time_stamp(entry.published) 
+      %span.name= entry.authors.first.name.gsub(/\s*(.+)\s*\((.*)\)/im, ' <a href="http://twitter.com/\1">\1</a>')
+      %span.separator said
+    %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9-_]+)([\s,.;]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(#{query})/im, '<strong class="query">\1</strong>')
     
   
 @@ main
@@ -83,25 +98,27 @@ __END__
   :margin 0
   :padding 0
   :font-family arial, sans-serif
-  :line-height .8em
-body
+body#meh
   :background-color #666
   :color #777
-  p
-    :text-transform uppercase
-    :font-size 300%
-    a
-      :color #777
-      :text-decoration none
-      &:hover
-        :color #555
-    .meh
-      :color #888
-    .item
-      &:hover
-        :color #888
-        .meh
-          :color #aaa
-        a
-          :color #999
-          
+  :text-transform uppercase
+  :font-size 300%
+  :text-align justify
+  :line-height .8em
+  
+  a
+    :color #777
+    :text-decoration none
+  .query
+    :color #888
+  .item
+    :display inline
+    &:hover
+      :color #999
+      .query
+        :color #bbb
+      a
+        :color #aaa
+        &:hover
+          :color #ccc
+        
