@@ -76,9 +76,6 @@ __END__
     %title meh
     %meta{'http-equiv'=>"content-type", :content=>"text/html; charset=UTF-8"}/
     %link{:href=>"/main.css", :media=>"all", :rel=>"stylesheet", :type=>"text/css"}/
-    %script{:type=>"text/javascript"}
-      :plain
-
   %body{:id=>"#{query}"}
     .container
       #content
@@ -99,7 +96,9 @@ __END__
   <noscript><img alt="Clicky" width=1 height=1 src="http://static.getclicky.com/56588-db8.gif" /></noscript>
   %p
     %span.copyright
-      something meh from <a href="http://www.seaofclouds.com">seaofclouds</a>&trade; | 
+      tweet "meh" on 
+      %a{:href=>"http://twitter.com"} twitter
+      | something meh from <a href="http://www.seaofclouds.com">seaofclouds</a>&trade; | 
       %a{:href=>"http://gist.github.com/21958"} contribute
           
 @@ main
@@ -132,13 +131,13 @@ body#meh
           :color #ccc
   #footer
     :font-family verdana, sans-serif
-    :font-size 30%
+    :font-size 25%
     :text-align center
-    :padding-top 2em
+    :padding-top 1em
+    :padding-bottom 0
     :text-transform none
     :color #888
     p
-      :padding-bottom 0em
       :line-height .8em
     a
       :color #aaa
