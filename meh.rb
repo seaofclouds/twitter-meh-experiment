@@ -73,7 +73,7 @@ __END__
 !!! Strict
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", :lang => "en", 'xml:lang' => "en" }
   %head
-    %title meh
+    %title= query
     %meta{'http-equiv'=>"content-type", :content=>"text/html; charset=UTF-8"}/
     %link{:href=>"/main.css", :media=>"all", :rel=>"stylesheet", :type=>"text/css"}/
   %body{:id=>"#{query}"}
@@ -89,11 +89,11 @@ __END__
       %span.date= time_ago_or_time_stamp(entry.published) 
       %span.name= entry.authors.first.name.gsub(/\s*(.+)\s*\((.*)\)/im, ' <a href="http://twitter.com/\1">\1</a>')
       %span.separator said
-    %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9-_]+)([ ,.;-><:!?]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(#{query})/im, '<strong>\1</strong>').gsub(/href=\"(.*)<strong>(.*)<\/strong>(.*)\"/im, 'href="\1\2\3"')
+    %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9\-_]+)([ ,.;\-><:!?]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(#{query})/im, '<strong>\1</strong>').gsub(/href=\"(.*)<strong>(.*)<\/strong>(.*)\"/im, 'href="\1\2\3"')
     
 #footer 
   <script src="http://static.getclicky.com/56588.js" type="text/javascript"></script>
-  <noscript><img alt="Clicky" width=1 height=1 src="http://static.getclicky.com/56588-db8.gif" /></noscript>
+  <noscript><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/56588-db8.gif" /></noscript>
   %p
     %span.copyright
       = "tweet '#{query}' on" 
@@ -117,18 +117,18 @@ body#meh
   a
     :color #777
     :text-decoration none
-  .query
-    :color #888
+  strong
+    :color #999
   .item
     :display inline
     &:hover
-      :color #999
+      :color #aaa
       a
-        :color #aaa
+        :color #ccc
       .title
-        :color #bbb
+        :color #ddd
         strong
-          :color #ddd
+          :color #fff
         a
           :color #ddd
           &:hover
