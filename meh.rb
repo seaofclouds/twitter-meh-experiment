@@ -89,14 +89,14 @@ __END__
       %span.date= time_ago_or_time_stamp(entry.published) 
       %span.name= entry.authors.first.name.gsub(/\s*(.+)\s*\((.*)\)/im, ' <a href="http://twitter.com/\1">\1</a>')
       %span.separator said
-    %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9-_]+)([\s,.;]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(#{query})/im, '<strong class="query">\1</strong>')
-
+    %span.title= entry.title.gsub(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="\1">\1</a>').gsub(/@([a-zA-Z0-9-_]+)([ ,.;-><:!?]+)/im, '<a href="http://twitter.com/\1">@\1</a>\2').gsub(/(#{query})/im, '<strong>\1</strong>').gsub(/href=\"(.*)<strong>(.*)<\/strong>(.*)\"/im, 'href="\1\2\3"')
+    
 #footer 
   <script src="http://static.getclicky.com/56588.js" type="text/javascript"></script>
   <noscript><img alt="Clicky" width=1 height=1 src="http://static.getclicky.com/56588-db8.gif" /></noscript>
   %p
     %span.copyright
-      tweet "meh" on 
+      = "tweet '#{query}' on" 
       %a{:href=>"http://twitter.com"} twitter
       | something meh from <a href="http://www.seaofclouds.com">seaofclouds</a>&trade; | 
       %a{:href=>"http://gist.github.com/21958"} contribute
@@ -123,12 +123,16 @@ body#meh
     :display inline
     &:hover
       :color #999
-      .query
-        :color #bbb
       a
         :color #aaa
-        &:hover
-          :color #ccc
+      .title
+        :color #bbb
+        strong
+          :color #ddd
+        a
+          :color #ddd
+          &:hover
+            :color #ccc
   #footer
     :font-family verdana, sans-serif
     :font-size 25%
