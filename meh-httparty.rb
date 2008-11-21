@@ -100,7 +100,7 @@ __END__
       = "tweet '#{query}' on" 
       %a{:href=>"http://twitter.com"} twitter
       | something meh from <a href="http://www.seaofclouds.com">seaofclouds</a>&trade; | 
-      %a{:href=>"http://gist.github.com/21958"} contribute
+      %a{:href=>"http://github.com/seaofclouds/twitter-meh-experiment/"} contribute
           
 @@ main
 *
