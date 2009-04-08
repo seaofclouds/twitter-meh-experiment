@@ -17,23 +17,24 @@ helpers do
     end
   end
   # fancy time
-  def time_ago_or_time_stamp(from_time, to_time = Time.now, include_seconds = true, detail = false)
+  def relative_time(from_time, to_time = Time.now, include_seconds = true, detail = false)
     from_time = from_time.to_time if from_time.respond_to?(:to_time)
     to_time = to_time.to_time if to_time.respond_to?(:to_time)
     distance_in_minutes = (((to_time - from_time).abs)/60).round
     distance_in_seconds = ((to_time - from_time).abs).round
     case distance_in_minutes
-      when 0..1           then time = (distance_in_seconds < 60) ? "#{distance_in_seconds} seconds ago" : '1 minute ago'
-      when 2..59          then time = "#{distance_in_minutes} minutes ago"
-      when 60..90         then time = "1 hour ago"
-      when 90..1440       then time = "#{(distance_in_minutes.to_f / 60.0).round} hours ago"
-      when 1440..2160     then time = '1 day ago' # 1-1.5 days
-      when 2160..2880     then time = "#{(distance_in_minutes.to_f / 1440.0).round} days ago" # 1.5-2 days
-      else time = from_time.strftime("%a, %d %b %Y")
+      when 0..1 then time = (distance_in_seconds < 60) ? "#{distance_in_seconds} seconds ago" : 'a minute ago'
+      when 2..59 then time = "#{distance_in_minutes} minutes ago"
+      when 60..90 then time = "an hour ago"
+      when 90..1440 then time = "#{(distance_in_minutes.to_f / 60.0).round} hours ago"
+      when 1440..2160 then time = 'a day ago' # 1-1.5 days
+      when 2160..2880 then time = "#{(distance_in_minutes.to_f / 1440.0).round} days ago" # 1.5-2 days
+      else time = from_time.strftime("%d %B %Y")
     end
     return time_stamp(from_time) if (detail && distance_in_minutes > 2880)
-    return time
+    return time.to_s
   end
+
 end
 
 not_found do
@@ -46,16 +47,16 @@ get '/' do
   haml :index
 end
 
-get '/:query' do
-  @tweets = Twitter.get('http://search.twitter.com/search.json?q='+query)['results']
-  haml :index
-end
-
 # stylesheets
 
 get '/main.css' do
   content_type 'text/css', :charset => 'utf-8'
   sass :main
+end
+
+get '/:query' do
+  @tweets = Twitter.get('http://search.twitter.com/search.json?q='+query)['results']
+  haml :index
 end
 
 # templates
@@ -82,7 +83,7 @@ __END__
 - @tweets.each do |entry|
   .item
     %span.meta
-      %span.date= time_ago_or_time_stamp(entry['created_at'])
+      -#%span.date= relative_time(entry['created_at'])
       %span.name
         %a{:href=>"http://twitter.com/#{entry['from_user']}"}= entry['from_user']
       %span.separator said
