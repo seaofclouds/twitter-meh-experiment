@@ -1,0 +1,3 @@
+[submodule "vendor/httparty"]
+	path = vendor/httparty
+	url = git://github.com/jnunemaker/httparty.git
