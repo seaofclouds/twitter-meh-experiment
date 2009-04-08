@@ -1,9 +1,5 @@
 # meh is a rainy day httparty with your hosts, json and twitter
 #--------------------------------------------------------------
-
-#use latest version of sinatra
-$:.unshift File.dirname(__FILE__) + '/sinatra/lib'
-
 require 'rubygems'
 require 'sinatra'
 require 'httparty'
